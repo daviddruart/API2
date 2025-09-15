@@ -1,14 +1,15 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
-
+import os
 
 app = Flask(__name__)
 
 # configuración SQLite dentro del codespace
-app.config["SQLCHEMY_DATABASE _URI"] = "sqlite///users.db"
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+app.config["SQLALCHEMY_DATABASE _URI"] = "sqlite///" + os.path.join(BASE_DIR, "users.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-db = SQLAlchemy (app)
+db = SQLAlchemy(app)
 
 # Modelo de usuario
 class User(db.Model):
@@ -95,4 +96,4 @@ def delete_user(user_id):
 
 
 if __name__ =="__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
