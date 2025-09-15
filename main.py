@@ -26,20 +26,11 @@ with app.app_context():
 # RUTAS CRUD
 
 # GET
-# GET: obtener información
-@app.route("/users/<user_id>")
-def get_user(user_id):
-    user = {"id":user_id, "name": "test", "telefono": "999-666-333"}
-    query = request.args.get("query")
-    if query:
-        user["query"] = query
-    return jsonify(user), 200
-
 # GET: obtener todos los usuarios
 @app.route("/users", methods=["GET"])
 def get_users():
-    return jsonify([u.to_dict() for u in users]), 200
-
+    users = User.query.all()
+    return jsonify([user.to_dict() for user in users]), 200
 # GET: obtener un usuario por id
 @app.route("/users/<int:user_id>", methods=["GET"])
 def get_user(user_id):
@@ -51,12 +42,6 @@ def get_user(user_id):
 
 
 # POST
-# POST: crear información
-@app.route('/users', methods=['POST'])
-def create_user():
-    data = request.get.json()
-    return jsonify(data), 201
-
 # POST: crear un nuevo usuario
 @app.route("/users", methods=["POST"])
 def create_user():
